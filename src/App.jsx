@@ -423,6 +423,116 @@ const GLASS_STYLES = {
   badge: "bg-white/10 backdrop-blur-xl border border-white/20 rounded-full px-3 py-1"
 };
 
+// NFL team colors (hex) for dynamic gradients — primary and secondary
+const NFL_TEAM_COLORS = {
+  ARI: { primary: '#97233F', secondary: '#FFB612', name: 'Cardinals' },
+  ATL: { primary: '#A71930', secondary: '#000000', name: 'Falcons' },
+  BAL: { primary: '#241773', secondary: '#9E7C0C', name: 'Ravens' },
+  BUF: { primary: '#00338D', secondary: '#C60C30', name: 'Bills' },
+  CAR: { primary: '#0085CA', secondary: '#101820', name: 'Panthers' },
+  CHI: { primary: '#C83200', secondary: '#0B162A', name: 'Bears' },
+  CIN: { primary: '#FB4F14', secondary: '#000000', name: 'Bengals' },
+  CLE: { primary: '#311D00', secondary: '#FF3C00', name: 'Browns' },
+  DAL: { primary: '#003594', secondary: '#869397', name: 'Cowboys' },
+  DEN: { primary: '#FB4F14', secondary: '#002244', name: 'Broncos' },
+  DET: { primary: '#0076B6', secondary: '#B0B7BC', name: 'Lions' },
+  GB:  { primary: '#203731', secondary: '#FFB612', name: 'Packers' },
+  HOU: { primary: '#03202F', secondary: '#A71930', name: 'Texans' },
+  IND: { primary: '#002C5F', secondary: '#A2AAAD', name: 'Colts' },
+  JAX: { primary: '#006778', secondary: '#D7A22A', name: 'Jaguars' },
+  KC:  { primary: '#E31837', secondary: '#FFB81C', name: 'Chiefs' },
+  LV:  { primary: '#000000', secondary: '#A5ACAF', name: 'Raiders' },
+  LAC: { primary: '#0080C6', secondary: '#FFC20E', name: 'Chargers' },
+  LAR: { primary: '#003594', secondary: '#FFA300', name: 'Rams' },
+  MIA: { primary: '#008E97', secondary: '#FC4C02', name: 'Dolphins' },
+  MIN: { primary: '#4F2683', secondary: '#FFC62F', name: 'Vikings' },
+  NE:  { primary: '#002244', secondary: '#C60C30', name: 'Patriots' },
+  NO:  { primary: '#101820', secondary: '#D3BC8D', name: 'Saints' },
+  NYG: { primary: '#0B2265', secondary: '#A71930', name: 'Giants' },
+  NYJ: { primary: '#125740', secondary: '#FFFFFF', name: 'Jets' },
+  PHI: { primary: '#004C54', secondary: '#A5ACAF', name: 'Eagles' },
+  PIT: { primary: '#101820', secondary: '#FFB612', name: 'Steelers' },
+  SF:  { primary: '#AA0000', secondary: '#B3995D', name: 'Niners' },
+  SEA: { primary: '#002244', secondary: '#69BE28', name: 'Seahawks' },
+  TB:  { primary: '#D50A0A', secondary: '#34302B', name: 'Buccaneers' },
+  TEN: { primary: '#0C2340', secondary: '#4B92DB', name: 'Titans' },
+  WAS: { primary: '#5A1414', secondary: '#FFB612', name: 'Commanders' }
+};
+
+// Fantasy value tier based on points-per-dollar efficiency
+const getValueTier = (player) => {
+  if (!player) return { label: '—', color: '#64748b', bg: 'rgba(100,116,139,0.1)' };
+  const ppg = player.fantasyPointsPerGame || 0;
+  const salary = player.salary || 1;
+  const ratio = ppg / (salary / 1000);
+  if (ratio > 1.8) return { label: 'ELITE VALUE', color: '#4ade80', bg: 'rgba(74,222,128,0.12)' };
+  if (ratio > 1.2) return { label: 'GREAT VALUE', color: '#38bdf8', bg: 'rgba(56,189,248,0.12)' };
+  if (ratio > 0.7) return { label: 'SOLID VALUE', color: '#fbbf24', bg: 'rgba(251,191,36,0.12)' };
+  return { label: 'OVERPRICED', color: '#f87171', bg: 'rgba(248,113,113,0.12)' };
+};
+
+// Get player initials for fallback avatar
+const getInitials = (name) => {
+  if (!name) return '??';
+  const parts = name.split(' ');
+  if (parts.length >= 2) return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+  return name.substring(0, 2).toUpperCase();
+};
+
+// Position-specific stat configs for the profile modal
+const PROFILE_STAT_CONFIGS = {
+  QB: [
+    { key: 'passingYards', label: 'Pass Yards', icon: '🎯', format: (v) => v?.toLocaleString() },
+    { key: 'passingTDs', label: 'Pass TDs', icon: '🏈', format: (v) => v },
+    { key: 'interceptions', label: 'INTs', icon: '❌', format: (v) => v },
+    { key: 'rushingYards', label: 'Rush Yards', icon: '⚡', format: (v) => v?.toLocaleString() },
+    { key: 'rushingTDs', label: 'Rush TDs', icon: '💨', format: (v) => v },
+    { key: 'passCompletions', label: 'Completions', icon: '✅', format: (v) => v },
+    { key: 'passAttempts', label: 'Attempts', icon: '📊', format: (v) => v },
+    { key: 'fumbles', label: 'Fumbles', icon: '⚠️', format: (v) => v },
+  ],
+  RB: [
+    { key: 'rushingYards', label: 'Rush Yards', icon: '⚡', format: (v) => v?.toLocaleString() },
+    { key: 'rushingTDs', label: 'Rush TDs', icon: '💨', format: (v) => v },
+    { key: 'rushAttempts', label: 'Carries', icon: '🏃', format: (v) => v },
+    { key: 'receivingYards', label: 'Rec Yards', icon: '🙌', format: (v) => v?.toLocaleString() },
+    { key: 'receivingTDs', label: 'Rec TDs', icon: '🎯', format: (v) => v },
+    { key: 'receptions', label: 'Receptions', icon: '🤲', format: (v) => v },
+    { key: 'targets', label: 'Targets', icon: '📡', format: (v) => v },
+    { key: 'fumbles', label: 'Fumbles', icon: '⚠️', format: (v) => v },
+  ],
+  WR: [
+    { key: 'receivingYards', label: 'Rec Yards', icon: '🚀', format: (v) => v?.toLocaleString() },
+    { key: 'receivingTDs', label: 'Rec TDs', icon: '🎯', format: (v) => v },
+    { key: 'receptions', label: 'Receptions', icon: '🤲', format: (v) => v },
+    { key: 'targets', label: 'Targets', icon: '📡', format: (v) => v },
+    { key: 'rushingYards', label: 'Rush Yards', icon: '⚡', format: (v) => v?.toLocaleString() },
+    { key: 'rushingTDs', label: 'Rush TDs', icon: '💨', format: (v) => v },
+    { key: 'fumbles', label: 'Fumbles', icon: '⚠️', format: (v) => v },
+  ],
+  TE: [
+    { key: 'receivingYards', label: 'Rec Yards', icon: '🙌', format: (v) => v?.toLocaleString() },
+    { key: 'receivingTDs', label: 'Rec TDs', icon: '🎯', format: (v) => v },
+    { key: 'receptions', label: 'Receptions', icon: '🤲', format: (v) => v },
+    { key: 'targets', label: 'Targets', icon: '📡', format: (v) => v },
+    { key: 'fumbles', label: 'Fumbles', icon: '⚠️', format: (v) => v },
+  ],
+  K: [
+    { key: 'fieldGoalsMade', label: 'FG Made', icon: '🥅', format: (v) => v },
+    { key: 'kickAttempts', label: 'FG Att', icon: '🦶', format: (v) => v },
+    { key: 'kicksOver50', label: '50+ Yard', icon: '💪', format: (v) => v },
+    { key: 'extraPointsMade', label: 'XP Made', icon: '✅', format: (v) => v },
+  ],
+  DEF: [
+    { key: 'sacks', label: 'Sacks', icon: '💥', format: (v) => v },
+    { key: 'defInterceptions', label: 'INTs', icon: '🛡️', format: (v) => v },
+    { key: 'pointsAllowed', label: 'Pts Allowed', icon: '🚫', format: (v) => v },
+    { key: 'yardsAllowed', label: 'Yds Allowed', icon: '📏', format: (v) => v?.toLocaleString() },
+    { key: 'fumbles', label: 'Fum Rec', icon: '🏈', format: (v) => v },
+    { key: 'safeties', label: 'Safeties', icon: '🔒', format: (v) => v },
+  ],
+};
+
 function App() {
  // Storage abstraction with localStorage fallback for mobile
  const storage = {
@@ -505,6 +615,13 @@ function App() {
  const [leagueType, setLeagueType] = useState(null);
  const [showLeagueTypeModal, setShowLeagueTypeModal] = useState(false);
  const [remainingBudget, setRemainingBudget] = useState(50000);
+ // Player Profile Modal state
+ const [showProfileModal, setShowProfileModal] = useState(false);
+ const [profilePlayer, setProfilePlayer] = useState(null);
+ const [profileTab, setProfileTab] = useState('overview');
+ const [playerNews, setPlayerNews] = useState([]);
+ const [loadingNews, setLoadingNews] = useState(false);
+ const [headshotError, setHeadshotError] = useState(false);
  const [showSettingsModal, setShowSettingsModal] = useState(false);
  const [teamName, setTeamName] = useState('');
  const [teamMotto, setTeamMotto] = useState('');
@@ -631,6 +748,428 @@ const addComputedFields = (player) => {
     setLoadingPlayers(false);
   }
 };
+
+ // ═══════════════════════════════════════════════════════════════
+ // PLAYER PROFILE MODAL — open/close + news fetching
+ // ═══════════════════════════════════════════════════════════════
+
+ const openPlayerProfile = (player) => {
+   if (!player) return;
+   setProfilePlayer(player);
+   setProfileTab('overview');
+   setShowProfileModal(true);
+   setHeadshotError(false);
+   setPlayerNews([]);
+   // Fetch news in background
+   if (player.espnId) {
+     fetchPlayerNews(player.espnId);
+   }
+ };
+
+ const closePlayerProfile = () => {
+   setShowProfileModal(false);
+   setProfilePlayer(null);
+   setPlayerNews([]);
+ };
+
+ const fetchPlayerNews = async (espnId) => {
+   setLoadingNews(true);
+   try {
+     const res = await fetch(`${API_BASE_URL}/news?athlete=${espnId}`);
+     if (!res.ok) throw new Error('News fetch failed');
+     const data = await res.json();
+     if (data.success && data.articles) {
+       setPlayerNews(data.articles);
+     }
+   } catch (err) {
+     console.warn('Could not fetch player news:', err.message);
+     setPlayerNews([]);
+   } finally {
+     setLoadingNews(false);
+   }
+ };
+
+ // Get player's fantasy rank among all players at their position
+ const getPositionRank = (player) => {
+   if (!player) return 0;
+   const samePosPlayers = players
+     .filter(p => p.position === player.position)
+     .sort((a, b) => (b.fantasyPoints || 0) - (a.fantasyPoints || 0));
+   return samePosPlayers.findIndex(p => p.id === player.id) + 1;
+ };
+
+ // ═══════════════════════════════════════════════════════════════
+ // PLAYER PROFILE MODAL — Component
+ // ═══════════════════════════════════════════════════════════════
+
+ const PlayerProfileModal = () => {
+   if (!showProfileModal || !profilePlayer) return null;
+
+   const player = profilePlayer;
+   const teamColors = NFL_TEAM_COLORS[player.team] || { primary: '#1e293b', secondary: '#475569' };
+   const valueTier = getValueTier(player);
+   const posRank = getPositionRank(player);
+   const initials = getInitials(player.name);
+   const isOnRoster = roster.some(r => r?.id === player.id);
+   const statConfig = PROFILE_STAT_CONFIGS[player.position] || [];
+
+   // Get the stat source based on active tab
+   const getStats = () => {
+     if (profileTab === 'postseason' && player.postseason) return player.postseason;
+     return player;
+   };
+   const stats = getStats();
+
+   return (
+     <div
+       className="fixed inset-0 z-[60] flex items-center justify-center p-4"
+       onClick={closePlayerProfile}
+       style={{ backgroundColor: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(8px)' }}
+     >
+       <div
+         className="w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-3xl border border-white/10 shadow-2xl"
+         onClick={(e) => e.stopPropagation()}
+         style={{
+           background: 'linear-gradient(180deg, rgba(15,23,42,0.97) 0%, rgba(15,23,42,0.99) 100%)',
+           backdropFilter: 'blur(40px)',
+           animation: 'modalSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1)'
+         }}
+       >
+         {/* ── Gradient Header with Team Colors ─────────────── */}
+         <div
+           className="relative overflow-hidden rounded-t-3xl"
+           style={{
+             background: `linear-gradient(135deg, ${teamColors.primary} 0%, ${teamColors.secondary} 100%)`,
+             minHeight: '180px'
+           }}
+         >
+           {/* Decorative pattern overlay */}
+           <div className="absolute inset-0 opacity-10"
+             style={{
+               backgroundImage: 'radial-gradient(circle at 20% 50%, white 1px, transparent 1px), radial-gradient(circle at 80% 50%, white 1px, transparent 1px)',
+               backgroundSize: '40px 40px'
+             }}
+           />
+
+           {/* Close button */}
+           <button
+             onClick={closePlayerProfile}
+             className="absolute top-4 right-4 p-2 rounded-full bg-black/30 hover:bg-black/50 backdrop-blur-sm transition-all z-10"
+           >
+             <X className="w-5 h-5 text-white/80" />
+           </button>
+
+           {/* Team logo watermark */}
+           <img
+             src={`https://a.espn.com/i/teamlogos/nfl/500/${player.team.toLowerCase()}.png`}
+             alt=""
+             className="absolute right-4 bottom-2 w-20 h-20 opacity-20"
+             onError={(e) => { e.target.style.display = 'none'; }}
+           />
+
+           {/* Player headshot / avatar */}
+           <div className="flex justify-center pt-6 pb-2">
+             {player.headshot && !headshotError ? (
+               <div className="relative">
+                 <div className="w-28 h-28 rounded-2xl overflow-hidden border-2 border-white/20 shadow-xl"
+                   style={{ background: `linear-gradient(135deg, ${teamColors.primary}88, ${teamColors.secondary}88)` }}
+                 >
+                   <img
+                     src={player.headshot}
+                     alt={player.name}
+                     className="w-full h-full object-cover"
+                     onError={() => setHeadshotError(true)}
+                   />
+                 </div>
+                 {player.isPlayoffTeam && (
+                   <div className="absolute -top-2 -right-2 px-1.5 py-0.5 bg-yellow-500 text-black text-[9px] font-bold rounded-full shadow-lg">
+                     PLAYOFFS
+                   </div>
+                 )}
+               </div>
+             ) : (
+               <div
+                 className="w-28 h-28 rounded-2xl flex items-center justify-center border-2 border-white/20 shadow-xl text-4xl font-bold text-white/80"
+                 style={{ background: `linear-gradient(135deg, ${teamColors.primary}cc, ${teamColors.secondary}cc)` }}
+               >
+                 {initials}
+               </div>
+             )}
+           </div>
+         </div>
+
+         {/* ── Player Info ──────────────────────────────────── */}
+         <div className="px-6 pt-5 pb-3">
+           <div className="flex items-start justify-between">
+             <div>
+               <h2 className="text-2xl font-bold text-white">{player.name}</h2>
+               <div className="flex items-center gap-2 mt-1.5">
+                 <span className="text-sm text-white/50">{player.team}</span>
+                 <span className="text-white/20">·</span>
+                 <span className="text-sm px-2 py-0.5 rounded-full bg-white/10 text-white/70 font-medium">
+                   {player.position}
+                 </span>
+               </div>
+             </div>
+             <div className="text-right">
+               <div className="text-xs text-white/40">Rank</div>
+               <div className="text-3xl font-bold text-white">#{posRank}</div>
+             </div>
+           </div>
+
+           {/* Value tier + salary row */}
+           <div className="flex items-center gap-3 mt-4">
+             <div
+               className="px-3 py-1.5 rounded-xl text-xs font-bold border"
+               style={{ color: valueTier.color, backgroundColor: valueTier.bg, borderColor: valueTier.color + '33' }}
+             >
+               {valueTier.label}
+             </div>
+             <div className="px-3 py-1.5 rounded-xl bg-white/5 border border-white/10 text-xs text-white/60">
+               ${player.salary?.toLocaleString()} salary
+             </div>
+             <div className="px-3 py-1.5 rounded-xl bg-white/5 border border-white/10 text-xs text-white/60">
+               {player.gamesPlayed} GP
+             </div>
+           </div>
+         </div>
+
+         {/* ── Tab Navigation ──────────────────────────────── */}
+         <div className="flex px-6 gap-1 mt-2 border-b border-white/10">
+           {[
+             { id: 'overview', label: 'Overview' },
+             { id: 'stats', label: 'Full Stats' },
+             { id: 'postseason', label: 'Postseason' }
+           ].map(tab => (
+             <button
+               key={tab.id}
+               onClick={() => setProfileTab(tab.id)}
+               className={`px-4 py-3 text-sm font-medium transition-all relative ${
+                 profileTab === tab.id
+                   ? 'text-white'
+                   : 'text-white/40 hover:text-white/60'
+               }`}
+             >
+               {tab.label}
+               {profileTab === tab.id && (
+                 <div className="absolute bottom-0 left-0 right-0 h-0.5 rounded-full" style={{ backgroundColor: teamColors.primary }} />
+               )}
+             </button>
+           ))}
+         </div>
+
+         {/* ── Tab Content ─────────────────────────────────── */}
+         <div className="px-6 py-5">
+
+           {/* OVERVIEW TAB */}
+           {profileTab === 'overview' && (
+             <div>
+               {/* Key stat cards — top 5 stats as glassmorphic cards */}
+               <div className="grid grid-cols-2 gap-3">
+                 {statConfig.slice(0, 4).map(cfg => (
+                   <div
+                     key={cfg.key}
+                     className="p-4 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm hover:bg-white/8 transition-all"
+                   >
+                     <div className="flex items-center gap-2 mb-2">
+                       <span className="text-lg">{cfg.icon}</span>
+                       <span className="text-[11px] text-white/40 uppercase tracking-wide">{cfg.label}</span>
+                     </div>
+                     <div className="text-2xl font-bold text-white">
+                       {cfg.format(stats[cfg.key] || 0)}
+                     </div>
+                   </div>
+                 ))}
+               </div>
+
+               {/* Fantasy points highlight */}
+               <div
+                 className="mt-4 p-4 rounded-2xl border border-white/10"
+                 style={{ background: `linear-gradient(135deg, ${teamColors.primary}15, ${teamColors.secondary}15)` }}
+               >
+                 <div className="flex items-center justify-between">
+                   <div>
+                     <div className="text-xs text-white/40 mb-1">Total Fantasy Points</div>
+                     <div className="text-3xl font-bold text-white">{(stats.fantasyPoints || 0).toFixed(1)}</div>
+                   </div>
+                   <div className="text-right">
+                     <div className="text-xs text-white/40 mb-1">Per Game</div>
+                     <div className="text-3xl font-bold" style={{ color: teamColors.primary === '#000000' ? teamColors.secondary : teamColors.primary }}>
+                       {(stats.fantasyPointsPerGame || 0).toFixed(1)}
+                     </div>
+                   </div>
+                 </div>
+               </div>
+             </div>
+           )}
+
+           {/* FULL STATS TAB */}
+           {profileTab === 'stats' && (
+             <div className="space-y-2">
+               {statConfig.map(cfg => (
+                 <div
+                   key={cfg.key}
+                   className="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/5 hover:bg-white/8 transition-all"
+                 >
+                   <div className="flex items-center gap-3">
+                     <span className="text-base">{cfg.icon}</span>
+                     <span className="text-sm text-white/70">{cfg.label}</span>
+                   </div>
+                   <span className="text-sm font-bold text-white">{cfg.format(player[cfg.key] || 0)}</span>
+                 </div>
+               ))}
+               <div className="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/5">
+                 <div className="flex items-center gap-3">
+                   <span className="text-base">🏟️</span>
+                   <span className="text-sm text-white/70">Games Played</span>
+                 </div>
+                 <span className="text-sm font-bold text-white">{player.gamesPlayed || 0}</span>
+               </div>
+               <div className="flex items-center justify-between p-3 rounded-xl bg-orange-500/10 border border-orange-500/20">
+                 <div className="flex items-center gap-3">
+                   <span className="text-base">⭐</span>
+                   <span className="text-sm font-medium text-orange-400">Fantasy Points</span>
+                 </div>
+                 <span className="text-sm font-bold text-orange-400">{(player.fantasyPoints || 0).toFixed(1)}</span>
+               </div>
+             </div>
+           )}
+
+           {/* POSTSEASON TAB */}
+           {profileTab === 'postseason' && (
+             <div>
+               {player.postseason ? (
+                 <div className="space-y-3">
+                   <div className="flex items-center gap-2 mb-4">
+                     <span className="text-sm font-bold text-green-400">Playoff Stats Available</span>
+                     <span className="px-2 py-0.5 bg-green-500/10 border border-green-500/20 rounded-full text-xs text-green-400">
+                       {player.postseason.gamesPlayed || 0} games
+                     </span>
+                   </div>
+                   {statConfig.map(cfg => {
+                     const regVal = player[cfg.key] || 0;
+                     const psVal = player.postseason[cfg.key] || 0;
+                     const perGameReg = player.gamesPlayed > 0 ? regVal / player.gamesPlayed : 0;
+                     const perGamePS = player.postseason.gamesPlayed > 0 ? psVal / player.postseason.gamesPlayed : 0;
+                     const diff = perGamePS - perGameReg;
+                     const diffPct = perGameReg > 0 ? ((diff / perGameReg) * 100).toFixed(0) : 0;
+
+                     return (
+                       <div key={cfg.key} className="p-3 rounded-xl bg-white/5 border border-white/5">
+                         <div className="flex items-center justify-between mb-1">
+                           <div className="flex items-center gap-2">
+                             <span className="text-base">{cfg.icon}</span>
+                             <span className="text-sm text-white/70">{cfg.label}</span>
+                           </div>
+                           {diff !== 0 && perGameReg > 0 && (
+                             <span className={`text-xs font-medium ${diff > 0 ? 'text-green-400' : 'text-red-400'}`}>
+                               {diff > 0 ? '↑' : '↓'} {Math.abs(diffPct)}% per game
+                             </span>
+                           )}
+                         </div>
+                         <div className="flex items-center gap-4">
+                           <div className="flex-1">
+                             <div className="text-[10px] text-white/30 mb-0.5">Regular</div>
+                             <div className="text-sm font-bold text-white/60">{cfg.format(regVal)}</div>
+                           </div>
+                           <div className="text-white/20">→</div>
+                           <div className="flex-1">
+                             <div className="text-[10px] text-green-400/60 mb-0.5">Playoffs</div>
+                             <div className="text-sm font-bold text-white">{cfg.format(psVal)}</div>
+                           </div>
+                         </div>
+                       </div>
+                     );
+                   })}
+                   <div className="p-3 rounded-xl bg-green-500/10 border border-green-500/20">
+                     <div className="flex items-center justify-between">
+                       <span className="text-sm font-medium text-green-400">Playoff Fantasy Points</span>
+                       <span className="text-lg font-bold text-green-400">{(player.postseason.fantasyPoints || 0).toFixed(1)}</span>
+                     </div>
+                   </div>
+                 </div>
+               ) : (
+                 <div className="text-center py-12">
+                   <div className="text-4xl mb-3">🏈</div>
+                   <div className="text-white/40 text-sm">No postseason stats yet</div>
+                   <div className="text-white/20 text-xs mt-1">
+                     {player.isPlayoffTeam ? 'Playoff games haven\'t started' : 'Team did not make playoffs'}
+                   </div>
+                 </div>
+               )}
+             </div>
+           )}
+         </div>
+
+         {/* ── News Section ────────────────────────────────── */}
+         <div className="px-6 pb-4">
+           <div className="border-t border-white/10 pt-4">
+             <h3 className="text-sm font-semibold text-white/60 mb-3 flex items-center gap-2">
+               📰 Latest News
+               {loadingNews && <span className="text-xs text-white/30 animate-pulse">Loading...</span>}
+             </h3>
+             {playerNews.length > 0 ? (
+               <div className="space-y-2">
+                 {playerNews.map((article, idx) => (
+                   <a
+                     key={idx}
+                     href={article.link || '#'}
+                     target="_blank"
+                     rel="noopener noreferrer"
+                     className="block p-3 rounded-xl bg-white/5 border border-white/5 hover:bg-white/8 transition-all"
+                   >
+                     <div className="text-sm text-white/80 font-medium leading-snug">{article.headline}</div>
+                     {article.published && (
+                       <div className="text-[10px] text-white/30 mt-1">
+                         {new Date(article.published).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                       </div>
+                     )}
+                   </a>
+                 ))}
+               </div>
+             ) : !loadingNews ? (
+               <div className="text-xs text-white/20 text-center py-4">No recent news available</div>
+             ) : null}
+           </div>
+         </div>
+
+         {/* ── Action Button ───────────────────────────────── */}
+         <div className="px-6 pb-6">
+           <button
+             onClick={(e) => {
+               e.stopPropagation();
+               if (isOnRoster) {
+                 removePlayerFromRoster(player.id);
+                 closePlayerProfile();
+               } else {
+                 addPlayerToRoster(player);
+                 closePlayerProfile();
+               }
+             }}
+             className={`w-full py-3.5 rounded-2xl font-semibold text-sm transition-all ${
+               isOnRoster
+                 ? 'bg-red-500/20 text-red-400 border border-red-500/30 hover:bg-red-500/30'
+                 : 'text-white border border-white/10 hover:border-white/20'
+             }`}
+             style={!isOnRoster ? {
+               background: `linear-gradient(135deg, ${teamColors.primary}dd, ${teamColors.secondary}dd)`
+             } : undefined}
+           >
+             {isOnRoster ? '✕  Remove from Roster' : '＋  Add to Roster'}
+           </button>
+         </div>
+       </div>
+
+       {/* Modal animation keyframes */}
+       <style>{`
+         @keyframes modalSlideUp {
+           from { opacity: 0; transform: translateY(40px) scale(0.97); }
+           to { opacity: 1; transform: translateY(0) scale(1); }
+         }
+       `}</style>
+     </div>
+   );
+ };
 
  const handleAuth = async (e) => {
  if (e) e.preventDefault();
@@ -1919,7 +2458,7 @@ const addComputedFields = (player) => {
  return (
  <div key={idx}>
  <div
- onClick={() => player && setSelectedPlayer(selectedPlayer?.id === player.id ? null : player)}
+ onClick={() => player && openPlayerProfile(player)}
  className={`group relative rounded-3xl transition-all duration-300 ${
  player
  ? `backdrop-blur-sm bg-gradient-to-r ${colors.bg} border-2 ${colors.border} cursor-pointer hover:scale-[1.02] hover:shadow-md hover:border-opacity-100`
@@ -2311,7 +2850,7 @@ const addComputedFields = (player) => {
  return (
  <div key={idx}>
  <div
- onClick={() => player && setSelectedPlayer(selectedPlayer?.id === player.id ? null : player)}
+ onClick={() => player && openPlayerProfile(player)}
  className={`p-3 rounded-2xl ${
  player
  ? 'bg-gradient-to-r from-blue-500/10 to-orange-100 border border-blue-200 cursor-pointer hover:shadow-md transition'
@@ -3969,7 +4508,7 @@ const addComputedFields = (player) => {
  className={`bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 rounded-2xl p-4 cursor-pointer transition-all hover:bg-white/10 ${
  isOnRoster ? 'opacity-50 cursor-not-allowed' : ''
  }`}
- onClick={() => !isOnRoster && setSelectedPlayer(selectedPlayer?.id === player.id ? null : player)}
+ onClick={() => openPlayerProfile(player)}
  >
  <div className="flex items-start justify-between mb-3">
  <div className="flex-1">
@@ -4129,6 +4668,9 @@ const addComputedFields = (player) => {
  </div>
  </div>
  )}
+
+ {/* ═══ Player Profile Modal ═══ */}
+ <PlayerProfileModal />
 
  </div>
  );
