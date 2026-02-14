@@ -755,14 +755,23 @@ const addComputedFields = (player) => {
 
  const openPlayerProfile = (player) => {
    if (!player) return;
-   setProfilePlayer(player);
+   // Enrich player with espnId/headshot from full players list if missing
+   // (roster data saved before these fields were added won't have them)
+   let enriched = player;
+   if (!player.espnId || !player.headshot) {
+     const match = players.find(p => p.id === player.id || (p.name === player.name && p.team === player.team));
+     if (match) {
+       enriched = { ...player, espnId: match.espnId || player.espnId, headshot: match.headshot || player.headshot };
+     }
+   }
+   setProfilePlayer(enriched);
    setProfileTab('overview');
    setShowProfileModal(true);
    setHeadshotError(false);
    setPlayerNews([]);
    // Fetch news in background
-   if (player.espnId) {
-     fetchPlayerNews(player.espnId);
+   if (enriched.espnId) {
+     fetchPlayerNews(enriched.espnId);
    }
  };
 
