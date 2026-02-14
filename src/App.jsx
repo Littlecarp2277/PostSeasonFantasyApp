@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { UserPlus, Users, Plus, Trophy, LogOut, Copy, Check, X, Search, Filter, Settings, TrendingUp } from 'lucide-react';
+import { UserPlus, Users, Plus, Trophy, LogOut, Copy, Check, X, Search, Filter, Settings, TrendingUp, ChevronRight } from 'lucide-react';
 
 const ROSTER_STRUCTURE = {
  QB: 2,
@@ -4140,129 +4140,102 @@ const addComputedFields = (player) => {
 
  {screen === 'team' && currentLeague && (
  <div className="min-h-screen">
- <div className="bg-white/5 backdrop-blur-xl border border-white/10">
- <div className="max-w-6xl mx-auto px-4 py-4">
- <div className="flex justify-between items-center">
- <div className="flex-1">
- <div className="flex items-center gap-3">
- {/* Profile Picture */}
- {teamName && (
- <div className={`w-16 h-16 rounded-full bg-gradient-to-br ${PROFILE_PICTURES.find(p => p.id === profilePicture)?.bg || 'from-orange-500 to-orange-600'} flex items-center justify-center text-3xl shadow-md`}>
- {PROFILE_PICTURES.find(p => p.id === profilePicture)?.emoji || '🏈'}
- </div>
- )}
- <div>
- <h1 className="text-xl md:text-2xl font-light text-white">{currentLeague.name}</h1>
- {teamName && (
- <div className="mt-1">
- <p className="text-lg font-semibold text-orange-500">{teamName}</p>
- {teamMotto && (
- <p className="text-xs text-white/50 italic">"{teamMotto}"</p>
- )}
- </div>
- )}
- <p className="text-white/50 text-sm mt-1">Your Roster • {getTotalFantasyPoints()} Fantasy Points</p>
- </div>
- <button
- onClick={() => setShowSettingsModal(true)}
- className="p-2 hover:bg-white/5 rounded-2xl transition"
- title="Team Settings"
- >
- <Settings className="w-5 h-5 text-white/50" />
- </button>
- </div>
- </div>
- <button
- onClick={() => setScreen('league_selection')}
- className="px-4 py-2 bg-white/5 text-white/80 hover:bg-white/10 transition text-sm md:text-base rounded-2xl"
- >
- ← Back to Leagues
- </button>
- </div>
-
- {currentLeague.adminId === currentUser.id && (
- <div className="mt-4 p-4 bg-orange-500/10 border border-orange-500/20 rounded-2xl">
- <div className="flex flex-col md:flex-row md:items-center gap-3">
- <div className="flex-1">
- <p className="text-sm font-medium text-white/80">Invite Code:</p>
- <p className="text-lg font-semibold text-orange-400">{currentLeague.inviteCode}</p>
- </div>
- <button
- onClick={copyInviteLink}
- className="flex items-center justify-center gap-2 px-4 py-2 bg-orange-400 text-white hover:bg-orange-500/100 transition rounded-2xl"
- >
- {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
- {copied ? 'Copied!' : 'Copy Link'}
- </button>
- </div>
- </div>
- )}
-
- {/* Tab Navigation */}
- <div className="mt-6 border-b border-white/10">
- <div className="flex gap-4 overflow-x-auto">
- <button
- onClick={() => setActiveTab('dashboard')}
- className={`pb-3 px-2 font-medium text-sm whitespace-nowrap border-b-2 transition ${
- activeTab === 'dashboard'
- ? 'border-orange-400 text-orange-400'
- : 'border-transparent text-white/50 hover:text-white/80'
- }`}
- >
- Dashboard
- </button>
- <button
- onClick={() => setActiveTab('team')}
- className={`pb-3 px-2 font-medium text-sm whitespace-nowrap border-b-2 transition ${
- activeTab === 'team'
- ? 'border-orange-400 text-orange-400'
- : 'border-transparent text-white/50 hover:text-white/80'
- }`}
- >
- My Team
- </button>
- <button
- onClick={() => setActiveTab('gameweek')}
- className={`pb-3 px-2 font-medium text-sm whitespace-nowrap border-b-2 transition ${
- activeTab === 'gameweek'
- ? 'border-orange-400 text-orange-400'
- : 'border-transparent text-white/50 hover:text-white/80'
- }`}
- >
- Game Week
- </button>
- <button
- onClick={() => setActiveTab('schedule')}
- className={`pb-3 px-2 font-medium text-sm whitespace-nowrap border-b-2 transition ${
- activeTab === 'schedule'
- ? 'border-orange-400 text-orange-400'
- : 'border-transparent text-white/50 hover:text-white/80'
- }`}
- >
- Schedule
- </button>
- <button
- onClick={() => setActiveTab('news')}
- className={`pb-3 px-2 font-medium text-sm whitespace-nowrap border-b-2 transition ${
- activeTab === 'news'
- ? 'border-orange-400 text-orange-400'
- : 'border-transparent text-white/50 hover:text-white/80'
- }`}
- >
- News
- </button>
- </div>
- </div>
- </div>
- </div>
-
- {/* Tab Content */}
+ {/* Tab Content - Full Page */}
  <div className="pb-24">
  {activeTab === 'dashboard' && <DashboardView />}
  {activeTab === 'team' && <TeamTab />}
  {activeTab === 'gameweek' && <GameWeekTab />}
  {activeTab === 'schedule' && <ScheduleTab />}
  {activeTab === 'news' && <NewsTab />}
+ {activeTab === 'league' && (
+ <div className="min-h-screen p-4 md:p-8">
+ <div className="max-w-2xl mx-auto space-y-6">
+
+ {/* League Info Card */}
+ <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-6 anim-fade-up">
+ <div className="flex items-center gap-4 mb-4">
+ <div className="w-14 h-14 bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl flex items-center justify-center text-2xl shadow-md">
+ {PROFILE_PICTURES.find(p => p.id === profilePicture)?.emoji || '\u{1F3C8}'}
+ </div>
+ <div className="flex-1">
+ <h1 className="text-2xl font-light text-white">{currentLeague.name}</h1>
+ <p className="text-white/50 text-sm">{currentLeague.members.length} {currentLeague.members.length === 1 ? 'member' : 'members'}</p>
+ </div>
+ </div>
+
+ {teamName && (
+ <div className="bg-white/5 rounded-2xl p-4 mb-4">
+ <div className="flex items-center gap-3">
+ <div className={`w-12 h-12 rounded-full bg-gradient-to-br ${PROFILE_PICTURES.find(p => p.id === profilePicture)?.bg || 'from-orange-500 to-orange-600'} flex items-center justify-center text-xl shadow-md`}>
+ {PROFILE_PICTURES.find(p => p.id === profilePicture)?.emoji || '\u{1F3C8}'}
+ </div>
+ <div>
+ <p className="text-lg font-semibold text-orange-400">{teamName}</p>
+ {teamMotto && <p className="text-xs text-white/50 italic">"{teamMotto}"</p>}
+ <p className="text-white/40 text-xs mt-0.5">{getTotalFantasyPoints()} Fantasy Points</p>
+ </div>
+ </div>
+ </div>
+ )}
+
+ <button
+ onClick={() => setShowSettingsModal(true)}
+ className="w-full flex items-center justify-between px-4 py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl transition group"
+ >
+ <div className="flex items-center gap-3">
+ <Settings className="w-5 h-5 text-white/50 group-hover:text-orange-400 transition" />
+ <span className="text-white/80 font-medium">Team Settings</span>
+ </div>
+ <ChevronRight className="w-5 h-5 text-white/30" />
+ </button>
+ </div>
+
+ {/* Invite Code Card - Admin Only */}
+ {currentLeague.adminId === currentUser.id && (
+ <div className="bg-gradient-to-br from-orange-500/10 to-orange-600/5 backdrop-blur-xl border border-orange-500/20 rounded-3xl p-6 anim-fade-up">
+ <h3 className="text-lg font-semibold text-white mb-1">Invite Code</h3>
+ <p className="text-white/40 text-sm mb-4">Share this code with friends to join your league</p>
+ <div className="flex items-center gap-3">
+ <div className="flex-1 bg-black/20 border border-white/10 rounded-2xl px-4 py-3">
+ <p className="text-2xl font-bold text-orange-400 tracking-wider">{currentLeague.inviteCode}</p>
+ </div>
+ <button
+ onClick={copyInviteLink}
+ className="flex items-center gap-2 px-5 py-3 bg-orange-500 text-white hover:bg-orange-600 transition rounded-2xl font-medium shadow-lg"
+ >
+ {copied ? <Check className="w-5 h-5" /> : <Copy className="w-5 h-5" />}
+ {copied ? 'Copied!' : 'Copy Link'}
+ </button>
+ </div>
+ </div>
+ )}
+
+ {/* Switch League */}
+ <button
+ onClick={() => setScreen('league_selection')}
+ className="w-full flex items-center justify-between px-5 py-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-3xl transition group"
+ >
+ <div className="flex items-center gap-3">
+ <svg className="w-5 h-5 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+ <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+ </svg>
+ <span className="text-white/80 font-medium">Switch League</span>
+ </div>
+ <ChevronRight className="w-5 h-5 text-white/30" />
+ </button>
+
+ {/* Logout */}
+ <button
+ onClick={handleLogout}
+ className="w-full flex items-center justify-center gap-2 px-5 py-3 bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 text-red-400 rounded-3xl transition font-medium"
+ >
+ <LogOut className="w-5 h-5" />
+ Logout
+ </button>
+
+ </div>
+ </div>
+ )}
  </div>
  </div>
  )}
@@ -4695,8 +4668,13 @@ const addComputedFields = (player) => {
 
  {/* League */}
  <button
- onClick={() => setScreen('league_selection')}
- className="flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl text-white/50 hover:text-white/90 hover:bg-white/5 transition-all duration-200"
+ onClick={() => setActiveTab('league')}
+ className={`flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl transition-all duration-200 ${
+ activeTab === 'league'
+ ? 'bg-orange-500/20 text-orange-400'
+ : 'text-white/50 hover:text-white/90 hover:bg-white/5'
+ }`}
+ style={activeTab === 'league' ? { boxShadow: '0 0 12px rgba(249,115,22,0.15)' } : {}}
  >
  <Settings className="w-5 h-5" />
  <span className="text-[10px] font-medium tracking-wide">League</span>
