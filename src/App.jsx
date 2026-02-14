@@ -681,8 +681,8 @@ const addComputedFields = (player) => {
   setError('');
 
   try {
-    const cacheKey = 'nfl_players_all_teams_v2';
-    const cacheTimeKey = 'nfl_players_all_teams_time_v2';
+    const cacheKey = 'nfl_players_all_teams_v3';
+    const cacheTimeKey = 'nfl_players_all_teams_time_v3';
 
     const cachedData = await storage.get(cacheKey);
     const cachedTime = await storage.get(cacheTimeKey);
@@ -861,7 +861,7 @@ const addComputedFields = (player) => {
 
            {/* Team logo watermark */}
            <img
-             src={`https://a.espn.com/i/teamlogos/nfl/500/${player.team.toLowerCase()}.png`}
+             src={`https://a.espncdn.com/i/teamlogos/nfl/500/${player.team.toLowerCase()}.png`}
              alt=""
              className="absolute right-4 bottom-2 w-20 h-20 opacity-20"
              onError={(e) => { e.target.style.display = 'none'; }}
