@@ -759,7 +759,9 @@ const addComputedFields = (player) => {
    // (roster data saved before these fields were added won't have them)
    let enriched = player;
    if (!player.espnId || !player.headshot) {
-     const match = players.find(p => p.id === player.id || (p.name === player.name && p.team === player.team));
+     // Match by name+team first (most reliable), fall back to ID
+     const match = players.find(p => p.name === player.name && p.team === player.team) 
+                || players.find(p => p.id === player.id);
      if (match) {
        enriched = { ...player, espnId: match.espnId || player.espnId, headshot: match.headshot || player.headshot };
      }
@@ -1634,6 +1636,13 @@ const addComputedFields = (player) => {
  handleJoinLeague(inviteCode);
  }
  }, [currentUser, screen]);
+
+ // Auto-fetch players when league is loaded so headshot enrichment works everywhere
+ useEffect(() => {
+   if (currentLeague && players.length === 0) {
+     fetchNFLPlayers();
+   }
+ }, [currentLeague]);
 
  const getTotalFantasyPoints = () => {
  return roster.reduce((total, player) => total + player.fantasyPoints, 0).toFixed(1);
