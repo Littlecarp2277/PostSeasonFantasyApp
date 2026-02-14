@@ -3116,50 +3116,50 @@ const addComputedFields = (player) => {
  <div className="max-w-[1400px] mx-auto">
  {/* Header */}
  <div className="mb-8">
- <h1 className="text-5xl font-light text-white mb-2">Game Week</h1>
+ <h1 className="text-3xl sm:text-5xl font-light text-white mb-2">Game Week</h1>
  <p className="text-white/50">League standings and team matchups</p>
  </div>
 
  {/* Stats Overview Cards */}
  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
  {/* Total Teams Card */}
- <div className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-3xl p-6 shadow-md text-white">
- <div className="flex items-center justify-between mb-4">
- <div className="w-12 h-12 bg-white/20 flex items-center justify-center">
+ <div className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-3xl p-4 sm:p-6 shadow-md text-white">
+ <div className="flex items-center justify-between mb-3 sm:mb-4">
+ <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white/20 flex items-center justify-center">
  <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
  </svg>
  </div>
  </div>
- <div className="text-5xl font-black mb-2">{leaderboard.length}</div>
+ <div className="text-3xl sm:text-5xl font-black mb-2">{leaderboard.length}</div>
  <div className="text-orange-100 font-medium">Teams Competing</div>
  </div>
 
  {/* Highest Score Card */}
- <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-3xl p-6 shadow-md text-white">
- <div className="flex items-center justify-between mb-4">
- <div className="w-12 h-12 bg-white/20 flex items-center justify-center">
+ <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-3xl p-4 sm:p-6 shadow-md text-white">
+ <div className="flex items-center justify-between mb-3 sm:mb-4">
+ <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white/20 flex items-center justify-center">
  <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
  </svg>
  </div>
  </div>
- <div className="text-5xl font-black mb-2">
+ <div className="text-3xl sm:text-5xl font-black mb-2">
  {leaderboard.length > 0 ? Math.max(...leaderboard.map(t => parseFloat(t.totalPoints))).toFixed(1) : '0'}
  </div>
  <div className="text-green-100 font-medium">Highest Score</div>
  </div>
 
  {/* Average Score Card */}
- <div className="bg-gradient-to-br from-blue-500/100 to-blue-600 rounded-3xl p-6 shadow-md text-white">
- <div className="flex items-center justify-between mb-4">
- <div className="w-12 h-12 bg-white/20 flex items-center justify-center">
+ <div className="bg-gradient-to-br from-blue-500/100 to-blue-600 rounded-3xl p-4 sm:p-6 shadow-md text-white">
+ <div className="flex items-center justify-between mb-3 sm:mb-4">
+ <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white/20 flex items-center justify-center">
  <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
  </svg>
  </div>
  </div>
- <div className="text-5xl font-black mb-2">
+ <div className="text-3xl sm:text-5xl font-black mb-2">
  {leaderboard.length > 0 
  ? (leaderboard.reduce((sum, t) => sum + parseFloat(t.totalPoints), 0) / leaderboard.length).toFixed(1)
  : '0'}
@@ -3169,9 +3169,9 @@ const addComputedFields = (player) => {
  </div>
 
  {/* Leaderboard */}
- <div className="bg-white/5 backdrop-blur-xl rounded-3xl border border-white/10 p-6">
- <div className="flex items-center justify-between mb-6">
- <h2 className="text-2xl font-light text-white">League Standings</h2>
+ <div className="bg-white/5 backdrop-blur-xl rounded-3xl border border-white/10 p-4 sm:p-6">
+ <div className="flex items-center justify-between mb-4 sm:mb-6">
+ <h2 className="text-xl sm:text-2xl font-light text-white">League Standings</h2>
  <div className="text-sm text-white/50">
  {leaderboard.length} {leaderboard.length === 1 ? 'team' : 'teams'}
  </div>
@@ -3191,55 +3191,48 @@ const addComputedFields = (player) => {
  <div className="space-y-3">
  {leaderboard.map((team, index) => (
  <button
- key={team.userId}
- onClick={() => setSelectedTeamView(team.userId)}
- className="w-full p-5 bg-gradient-to-r from-white/5 to-white/10 backdrop-blur-md border border-white/30 hover:from-white/10 hover:to-white/20 rounded-3xl transition-all border border-white/10 hover:border-white/20 hover:shadow-md text-left flex items-center gap-4 group"
- >
- {/* Rank Badge */}
- <div className={`flex-shrink-0 w-14 h-14 flex items-center justify-center rounded-3xl font-black text-2xl shadow-md ${
- index === 0 
- ? 'bg-gradient-to-br from-yellow-400 to-orange-500 text-white'
- : index === 1
- ? 'bg-gradient-to-br from-white/20 to-white/30 text-white'
- : index === 2
- ? 'bg-gradient-to-br from-orange-300 to-orange-400 text-white'
- : 'bg-gradient-to-br from-white/10 to-white/20 text-white/80'
- }`}>
- {index === 0 ? '🏆' : index + 1}
- </div>
+  key={team.userId}
+  onClick={() => setSelectedTeamView(team.userId)}
+  className="w-full p-4 bg-gradient-to-r from-white/5 to-white/10 backdrop-blur-md border border-white/10 hover:from-white/10 hover:to-white/20 rounded-2xl transition-all hover:border-white/20 text-left group"
+  >
+  <div className="flex items-center gap-3">
+  {/* Rank Badge */}
+  <div className={`flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-xl font-bold text-base shadow-md ${
+  index === 0 
+  ? 'bg-gradient-to-br from-yellow-400 to-orange-500 text-white'
+  : index === 1
+  ? 'bg-gradient-to-br from-white/20 to-white/30 text-white'
+  : index === 2
+  ? 'bg-gradient-to-br from-orange-300 to-orange-400 text-white'
+  : 'bg-gradient-to-br from-white/10 to-white/20 text-white/80'
+  }`}>
+  {index === 0 ? '🏆' : index + 1}
+  </div>
+  
+  {/* Team Info */}
+  <div className="flex-1 min-w-0">
+  <div className="font-semibold text-white text-sm sm:text-base truncate group-hover:text-orange-400 transition-colors">
+  {team.userEmail}
+  </div>
+  <div className="text-xs text-white/40">
+  {team.roster.length} players
+  </div>
+  </div>
+  
+  {/* Points */}
+  <div className="flex-shrink-0 text-right">
+  <div className="text-lg sm:text-xl font-bold text-orange-400">
+  {team.totalPoints}
+  </div>
+  <div className="text-[10px] text-white/40 font-medium uppercase tracking-wide">pts</div>
+  </div>
  
- {/* Team Info */}
- <div className="flex-1 min-w-0">
- <div className="font-semibold text-white text-lg mb-1 truncate group-hover:text-orange-400 transition-colors">
- {team.userEmail}
- </div>
- <div className="flex items-center gap-3 text-sm text-white/50">
- <span className="flex items-center gap-1">
- <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
- <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
- </svg>
- {team.roster.length} players
- </span>
- <span className="text-white/40">•</span>
- <span>Click to view roster</span>
- </div>
- </div>
- 
- {/* Points Display */}
- <div className="text-right">
- <div className="text-2xl font-bold text-orange-500 mb-1">
- {team.totalPoints}
- </div>
- <div className="text-xs text-white/50 font-medium uppercase tracking-wide">Total Points</div>
- </div>
-
- {/* Arrow Icon */}
- <div className="flex-shrink-0">
- <svg className="w-6 h-6 text-white/50 group-hover:text-orange-500 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
- <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
- </svg>
- </div>
- </button>
+  {/* Arrow */}
+  <svg className="flex-shrink-0 w-4 h-4 text-white/30 group-hover:text-orange-400 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+  </svg>
+  </div>
+  </button>
  ))}
  </div>
  )}
@@ -3734,9 +3727,9 @@ const addComputedFields = (player) => {
 
  {/* Stats Bar */}
  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
- <div className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-3xl p-6 shadow-md text-white">
- <div className="flex items-center justify-between mb-4">
- <div className="w-12 h-12 bg-white/20 flex items-center justify-center">
+ <div className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-3xl p-4 sm:p-6 shadow-md text-white">
+ <div className="flex items-center justify-between mb-3 sm:mb-4">
+ <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white/20 flex items-center justify-center">
  <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
  </svg>
@@ -3746,9 +3739,9 @@ const addComputedFields = (player) => {
  <div className="text-orange-100 font-medium">Breaking Headlines</div>
  </div>
 
- <div className="bg-gradient-to-br from-blue-500/100 to-blue-600 rounded-3xl p-6 shadow-md text-white">
- <div className="flex items-center justify-between mb-4">
- <div className="w-12 h-12 bg-white/20 flex items-center justify-center">
+ <div className="bg-gradient-to-br from-blue-500/100 to-blue-600 rounded-3xl p-4 sm:p-6 shadow-md text-white">
+ <div className="flex items-center justify-between mb-3 sm:mb-4">
+ <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white/20 flex items-center justify-center">
  <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
  </svg>
