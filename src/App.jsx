@@ -4239,7 +4239,7 @@ const addComputedFields = (player) => {
  </div>
 
  {/* Tab Content */}
- <div className="pb-20 md:pb-0">
+ <div className="pb-24">
  {activeTab === 'dashboard' && <DashboardView />}
  {activeTab === 'team' && <TeamTab />}
  {activeTab === 'gameweek' && <GameWeekTab />}
@@ -4610,59 +4610,78 @@ const addComputedFields = (player) => {
  </div>
  )}
 
- {/* Mobile Bottom Navigation - Floating Glassmorphic */}
+ {/* Bottom Navigation - Floating Glassmorphic */}
  {screen === 'team' && currentLeague && (
- <div className="fixed bottom-0 left-0 right-0 px-4 pb-6 z-40 md:hidden pointer-events-none">
- <div className="bg-slate-900/80 backdrop-blur-2xl border border-white/20 rounded-full shadow-2xl pointer-events-auto">
- <div className="flex items-center justify-around px-2 py-3">
+ <div className="fixed bottom-0 left-0 right-0 px-4 pb-4 z-40 pointer-events-none">
+ <div className="max-w-lg mx-auto bg-slate-900/70 backdrop-blur-2xl border border-white/15 rounded-2xl shadow-2xl pointer-events-auto" style={{ boxShadow: '0 8px 32px rgba(0,0,0,0.4), 0 0 60px rgba(249,115,22,0.06)' }}>
+ <div className="flex items-center justify-around px-3 py-2.5">
  {/* Dashboard */}
  <button
  onClick={() => setActiveTab('dashboard')}
- className={`flex flex-col items-center gap-1 px-4 py-2 rounded-full transition-all ${
+ className={`flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl transition-all duration-200 ${
  activeTab === 'dashboard'
  ? 'bg-orange-500/20 text-orange-400'
- : 'text-white/60 hover:text-white/90 hover:bg-white/10'
+ : 'text-white/50 hover:text-white/90 hover:bg-white/5'
  }`}
+ style={activeTab === 'dashboard' ? { boxShadow: '0 0 12px rgba(249,115,22,0.15)' } : {}}
  >
- <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
- <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+ <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+ <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
  </svg>
- <span className="text-xs font-medium">Home</span>
+ <span className="text-[10px] font-medium tracking-wide">Home</span>
  </button>
 
  {/* My Team */}
  <button
  onClick={() => setActiveTab('team')}
- className={`flex flex-col items-center gap-1 px-4 py-2 rounded-full transition-all ${
+ className={`flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl transition-all duration-200 ${
  activeTab === 'team'
  ? 'bg-orange-500/20 text-orange-400'
- : 'text-white/60 hover:text-white/90 hover:bg-white/10'
+ : 'text-white/50 hover:text-white/90 hover:bg-white/5'
  }`}
+ style={activeTab === 'team' ? { boxShadow: '0 0 12px rgba(249,115,22,0.15)' } : {}}
  >
- <Users className="w-6 h-6" />
- <span className="text-xs font-medium">Team</span>
+ <Users className="w-5 h-5" />
+ <span className="text-[10px] font-medium tracking-wide">Team</span>
  </button>
 
  {/* Gameday */}
  <button
  onClick={() => setActiveTab('gameweek')}
- className={`flex flex-col items-center gap-1 px-4 py-2 rounded-full transition-all ${
+ className={`flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl transition-all duration-200 ${
  activeTab === 'gameweek'
  ? 'bg-orange-500/20 text-orange-400'
- : 'text-white/60 hover:text-white/90 hover:bg-white/10'
+ : 'text-white/50 hover:text-white/90 hover:bg-white/5'
  }`}
+ style={activeTab === 'gameweek' ? { boxShadow: '0 0 12px rgba(249,115,22,0.15)' } : {}}
  >
- <Trophy className="w-6 h-6" />
- <span className="text-xs font-medium">Gameday</span>
+ <Trophy className="w-5 h-5" />
+ <span className="text-[10px] font-medium tracking-wide">Gameday</span>
+ </button>
+
+ {/* Schedule */}
+ <button
+ onClick={() => setActiveTab('schedule')}
+ className={`flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl transition-all duration-200 ${
+ activeTab === 'schedule'
+ ? 'bg-orange-500/20 text-orange-400'
+ : 'text-white/50 hover:text-white/90 hover:bg-white/5'
+ }`}
+ style={activeTab === 'schedule' ? { boxShadow: '0 0 12px rgba(249,115,22,0.15)' } : {}}
+ >
+ <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+ <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+ </svg>
+ <span className="text-[10px] font-medium tracking-wide">Schedule</span>
  </button>
 
  {/* League */}
  <button
  onClick={() => setScreen('league_selection')}
- className="flex flex-col items-center gap-1 px-4 py-2 rounded-full text-white/60 hover:text-white/90 hover:bg-white/10 transition-all"
+ className="flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl text-white/50 hover:text-white/90 hover:bg-white/5 transition-all duration-200"
  >
- <Settings className="w-6 h-6" />
- <span className="text-xs font-medium">League</span>
+ <Settings className="w-5 h-5" />
+ <span className="text-[10px] font-medium tracking-wide">League</span>
  </button>
  </div>
  </div>
