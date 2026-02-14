@@ -865,7 +865,7 @@ const addComputedFields = (player) => {
            {/* Close button */}
            <button
              onClick={closePlayerProfile}
-             className="absolute top-4 right-4 p-2 rounded-full bg-black/30 hover:bg-black/50 backdrop-blur-sm transition-all z-10"
+             className="absolute top-3 right-3 p-3 rounded-full bg-black/30 hover:bg-black/50 backdrop-blur-sm transition-all z-10 min-w-[44px] min-h-[44px] flex items-center justify-center"
            >
              <X className="w-5 h-5 text-white/80" />
            </button>
@@ -893,7 +893,7 @@ const addComputedFields = (player) => {
                    />
                  </div>
                  {player.isPlayoffTeam && (
-                   <div className="absolute -top-2 -right-2 px-1.5 py-0.5 bg-yellow-500 text-black text-[9px] font-bold rounded-full shadow-lg">
+                   <div className="absolute -top-2 -right-2 px-1.5 py-0.5 bg-yellow-500 text-black text-[11px] font-bold rounded-full shadow-lg">
                      PLAYOFFS
                    </div>
                  )}
@@ -1883,7 +1883,7 @@ const addComputedFields = (player) => {
  </div>
 
  {/* Stats row */}
- <div className="grid grid-cols-3 gap-4 mt-6 pt-6 border-t border-white/10">
+ <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6 pt-6 border-t border-white/10">
  <div className="text-center">
  <div className="text-sm text-white/40 mb-1">Highest</div>
  <div className="text-xl font-light text-white">{Math.max(...last5GamesData.map(g => g.points)).toFixed(1)}</div>
@@ -2578,7 +2578,7 @@ const addComputedFields = (player) => {
  </div>
  </div>
  </div>
- <div className="grid grid-cols-5 gap-2">
+ <div className="grid grid-cols-3 sm:grid-cols-5 gap-2">
  <div className="text-center">
  <div className="text-xs text-white/40 mb-1">Pass Yds</div>
  <div className="text-sm font-semibold text-white">{game.passYds}</div>
@@ -2618,7 +2618,7 @@ const addComputedFields = (player) => {
  </div>
  </div>
  </div>
- <div className="grid grid-cols-6 gap-2">
+ <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
  <div className="text-center">
  <div className="text-xs text-white/40 mb-1">Carries</div>
  <div className="text-sm font-semibold text-white">{game.carries}</div>
@@ -2698,7 +2698,7 @@ const addComputedFields = (player) => {
  </div>
  </div>
  </div>
- <div className="grid grid-cols-3 gap-4">
+ <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
  <div className="text-center">
  <div className="text-xs text-white/40 mb-1">FG Att</div>
  <div className="text-sm font-semibold text-white">{game.attempts}</div>
@@ -2922,7 +2922,7 @@ const addComputedFields = (player) => {
  </div>
  </div>
  </div>
- <div className="grid grid-cols-5 gap-2">
+ <div className="grid grid-cols-3 sm:grid-cols-5 gap-2">
  <div className="text-center">
  <div className="text-xs text-white/40 mb-1">Pass Yds</div>
  <div className="text-sm font-semibold text-white">{game.passYds}</div>
@@ -2962,7 +2962,7 @@ const addComputedFields = (player) => {
  </div>
  </div>
  </div>
- <div className="grid grid-cols-6 gap-2">
+ <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
  <div className="text-center">
  <div className="text-xs text-white/40 mb-1">Carries</div>
  <div className="text-sm font-semibold text-white">{game.carries}</div>
@@ -3042,7 +3042,7 @@ const addComputedFields = (player) => {
  </div>
  </div>
  </div>
- <div className="grid grid-cols-3 gap-4">
+ <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
  <div className="text-center">
  <div className="text-xs text-white/40 mb-1">FG Att</div>
  <div className="text-sm font-semibold text-white">{game.attempts}</div>
@@ -3524,7 +3524,7 @@ const addComputedFields = (player) => {
  </svg>
  <h3 className="text-lg font-semibold text-white">Betting Lines</h3>
  </div>
- <div className="grid grid-cols-3 gap-4">
+ <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
  <div className="bg-white/5 backdrop-blur-sm border border-white/10 p-4 text-center rounded-3xl">
  <div className="text-xs text-white/50 font-medium mb-2 uppercase tracking-wide">Spread</div>
  <div className="space-y-1">
@@ -4243,7 +4243,7 @@ const addComputedFields = (player) => {
  {/* Team Settings Modal */}
  {showSettingsModal && (
  <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
- <div className={`${GLASS_STYLES.modal} max-w-3xl w-full p-8 max-h-[90vh] overflow-y-auto`}>
+ <div className={`${GLASS_STYLES.modal} max-w-3xl w-full p-4 sm:p-8 max-h-[90vh] overflow-y-auto`}>
  
  {/* Header */}
  <div className="flex justify-between items-center mb-8">
@@ -4472,7 +4472,7 @@ const addComputedFields = (player) => {
  </div>
  </div>
 
- <div className="overflow-y-auto flex-1 p-6" style={{overflowY: 'scroll', WebkitOverflowScrolling: 'touch'}}>
+ <div className="overflow-y-auto flex-1 p-3 sm:p-6" style={{overflowY: 'scroll', WebkitOverflowScrolling: 'touch'}}>
  {loadingPlayers ? (
  <div className="flex flex-col items-center justify-center py-16">
  <div className="animate-spin rounded-full h-16 w-16 border-b-3 border-orange-400 mb-4"></div>
@@ -4531,7 +4531,7 @@ const addComputedFields = (player) => {
  addPlayerToRoster(player);
  }}
  disabled={isOnRoster || isFull}
- className={`flex-shrink-0 ml-3 p-3 rounded-xl transition-all ${
+ className={`flex-shrink-0 ml-3 p-3 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-xl transition-all ${
  isOnRoster || isFull
  ? 'bg-white/5 text-white/30 cursor-not-allowed'
  : 'bg-orange-500/90 text-white hover:bg-orange-500 hover:scale-110 shadow-lg'
@@ -4542,7 +4542,7 @@ const addComputedFields = (player) => {
  </button>
  </div>
 
- <div className="grid grid-cols-3 gap-3 text-sm">
+ <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
  <div className="text-center">
  <div className="text-xs text-white/40 mb-0.5">Total</div>
  <div className="text-lg font-bold text-orange-400">{player.fantasyPoints}</div>
@@ -4603,7 +4603,7 @@ const addComputedFields = (player) => {
 
  {/* Bottom Navigation - Floating Glassmorphic */}
  {screen === 'team' && currentLeague && (
- <div className="fixed bottom-0 left-0 right-0 px-4 pb-4 z-40 pointer-events-none">
+ <div className="fixed bottom-0 left-0 right-0 px-4 z-40 pointer-events-none" style={{ paddingBottom: "max(1rem, env(safe-area-inset-bottom, 1rem))" }}>
  <div className="max-w-lg mx-auto bg-slate-900/70 backdrop-blur-2xl border border-white/15 rounded-2xl shadow-2xl pointer-events-auto" style={{ boxShadow: '0 8px 32px rgba(0,0,0,0.4), 0 0 60px rgba(249,115,22,0.06)' }}>
  <div className="flex items-center justify-around px-3 py-2.5">
  {/* Dashboard */}

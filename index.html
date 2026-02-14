@@ -2,7 +2,12 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Postseason FF" />
+    <meta name="theme-color" content="#0f172a" />
+    <meta name="mobile-web-app-capable" content="yes" />
     <title>Postseason Fantasy Football</title>
     <!-- Tailwind CSS (same as Claude's artifact environment) -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -11,6 +16,26 @@
         margin: 0;
         padding: 0;
         background: #0f172a;
+        -webkit-tap-highlight-color: transparent;
+        -webkit-touch-callout: none;
+        overscroll-behavior: none;
+      }
+      /* Safe area support for notched phones */
+      :root {
+        --sab: env(safe-area-inset-bottom, 0px);
+        --sat: env(safe-area-inset-top, 0px);
+      }
+      /* Prevent pull-to-refresh on mobile */
+      html {
+        overscroll-behavior: none;
+      }
+      /* Smooth scrolling for iOS */
+      * {
+        -webkit-overflow-scrolling: touch;
+      }
+      /* Fix iOS input zoom */
+      input, select, textarea {
+        font-size: 16px !important;
       }
     </style>
   </head>
